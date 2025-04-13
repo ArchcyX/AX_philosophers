@@ -1,2 +1,0 @@
-# AX_philosophers
-Inprogresss
