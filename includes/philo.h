@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/13 17:11:53 by alermi            #+#    #+#             */
-/*   Updated: 2025/04/13 19:58:57 by alermi           ###   ########.fr       */
+/*   Created: 2025/04/16 16:00:22 by alermi            #+#    #+#             */
+/*   Updated: 2025/04/23 18:50:18 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,45 +14,50 @@
 # define PHILO_H
 
 # include <stdio.h>
-//printf()
 # include <stdlib.h>
-//Malloc() Free()
-# include <string.h>
-//memset()
 # include <unistd.h>
-//write()
 # include <pthread.h>
-//Thread functions()
 
-typedef struct s_rules
+typedef struct s_philo
 {
-    int             philo_count;
-    int             time_to_die;
-    int             time_to_eat;
-    int             time_to_sleep;
-    int             number_must_eat;
-    long long       start_time;
-    int             someone_die;
-    pthread_mutex_t *forks;
-	pthread_mutex_t print;
+	pthread_t       id;
+	int             eat_meal;
+	long long       last_meal;
+	pthread_mutex_t *r_fork;
+	pthread_mutex_t *l_fork;
+}   t_philo;
+
+typedef struct  s_rules
+{
+	int             count_philo;
+	int             time_to_die;
+	int             time_to_eat;
+	int             time_to_sleep;
+	int				succes_round;
+	t_philo         *philos;
+	pthread_mutex_t *fork;
+	pthread_mutex_t	mutex;
+	int				created_philo;
 }   t_rules;
 
-typedef struct s_philos
-{
-    int             id;
-    int             meal_eaten;
-    long long       last_meals;
-    t_rules			*rules;
-	pthread_mutex_t	*left_fork;
-	pthread_mutex_t	*right_fork;
-}   t_philos;
+void	number_check(char *number);
+void	init_values(int argc, char **argv, t_rules *rule);
+int		ax_atoi(char *number);
+void	*state_selector(void *main_struct);
 
-//#############[Utils Functions]#############//
+//#############[Thread Funtions]#############//
 
-void	ft_putstr(char *str);
+int		creat_enviroment(t_rules *head);
+int		creat_philo(t_rules *head, int i);
 
-//#############[Error Functions]#############//
+//#############[Fork Funtions]#############//
 
-void	ax_error(char *error_message);
+int	fork_init(t_rules *rule);
+
+//#############[Error functions]#############//
+
+int		put_error(char *error_message);
+void	free_imp(void *allocate);
+void	free_matris(void **matris);
 
 #endif

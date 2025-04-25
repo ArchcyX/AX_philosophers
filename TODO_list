@@ -20,4 +20,10 @@
 
 |================ [TO DO List] ===================|
 
-- 
+- Thread oluştur
+- Threadleri beklet
+- Yaşam döngüsüne başlat [Deadlock olabilir]
+
+
+|================ [Code struct] ===================|
+
