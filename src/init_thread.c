@@ -6,7 +6,7 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:28:36 by alermi            #+#    #+#             */
-/*   Updated: 2025/04/23 18:51:52 by alermi           ###   ########.fr       */
+/*   Updated: 2025/04/27 12:30:05 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ extern  __inline__  int
 	t_philo	philosophers;
 
 	memset(&philosophers, 0, sizeof(t_philo));
-	if (pthread_create(&(rule->philos[i].id), 0, state_selector, (void *)rule) != 0)
+	rule->philos[i].philo_id = i;
+	rule->philos[i].rules = rule;
+	if (pthread_create(&(rule->philos[i].id), 0, simulation_init,
+	 (void *)&rule->philos[i]) != 0)
 		return (1);
 	return (0);
 }
@@ -39,11 +42,14 @@ int    creat_enviroment(t_rules *head)
 		if (pthread_mutex_init(&head->fork[counter], NULL) == -1)
 			return (1);
 	counter = -1;
+//S
 	while (++counter < head->count_philo)
 		if (creat_philo(head, counter))
 			return (1);
-	if (pthread_mutex_init(&head->mutex, NULL))
-		return (1);
+	pthread_mutex_lock(&head->mutex);
+	head->start = get_time_ms((void *)head);
+	head->game_start = 1;
+	pthread_mutex_unlock(&head->mutex);
 	return (0);
 }
 

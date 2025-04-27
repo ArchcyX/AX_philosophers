@@ -22,7 +22,7 @@ void	free_imp(void *allocate)
 void	free_matris(void **matris)
 {
 	int	i;
-	
+
 	i = -1;
 	while (matris[++i])
 		free(matris[i]);

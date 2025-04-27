@@ -8,7 +8,8 @@ SRC =	./src/error_exit.c		\
 		./src/philo.c			\
 		./src/utils.c			\
 		./src/init_thread.c		\
-		./src/states.c
+		./src/states.c			\
+		./src/time_functions.c
 
 OBJ_DIR = obj
 
@@ -17,7 +18,8 @@ OBJS = $(OBJ_DIR)/philo.o				\
        $(OBJ_DIR)/error_exit.o			\
        $(OBJ_DIR)/utils.o				\
        $(OBJ_DIR)/init_thread.o			\
-       $(OBJ_DIR)/states.o
+       $(OBJ_DIR)/states.o				\
+       $(OBJ_DIR)/time_functions.o
 
 all: $(NAME)
 

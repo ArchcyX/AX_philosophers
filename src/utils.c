@@ -6,7 +6,7 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:04:17 by alermi            #+#    #+#             */
-/*   Updated: 2025/04/20 15:50:58 by alermi           ###   ########.fr       */
+/*   Updated: 2025/04/27 16:07:59 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,12 @@ int	ax_atoi(char *number)
 //	if (res > 2147483647 - (sign - 1) / 2)
 //		error_exit("Error!!", 1);
 	return ((int)(res * sign));
+}
+
+void	p_info(t_philo	*philo, char *message)
+{
+	int	current_time;
+
+	current_time = get_time_ms((void *)philo->rules);
+	printf("\nms: %d | ID: %d {%s}\n", current_time, philo->philo_id,message);
 }
