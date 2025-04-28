@@ -6,7 +6,7 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:28:36 by alermi            #+#    #+#             */
-/*   Updated: 2025/04/28 16:10:47 by alermi           ###   ########.fr       */
+/*   Updated: 2025/04/28 17:28:43 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ extern  __inline__  int
 	memset(&philosophers, 0, sizeof(t_philo));
 	rule->philos[i].philo_id = i;
 	rule->philos[i].rules = rule;
-	if (pthread_mutex_init(&rule->philos[i].death_control, NULL))
+	rule->philos[i].kill_time = get_time() + rule->time_to_die;
+	if (pthread_mutex_init(&rule->philos[i].kill_control, NULL))
 		return (put_error("Mutex Not Created"));
 	if (pthread_create(&(rule->philos[i].id), 0, simulation_init,
 		(void *)&rule->philos[i]) != 0)

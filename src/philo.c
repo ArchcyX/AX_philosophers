@@ -6,7 +6,7 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:01:16 by alermi            #+#    #+#             */
-/*   Updated: 2025/04/28 16:11:59 by alermi           ###   ########.fr       */
+/*   Updated: 2025/04/28 17:51:20 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,22 +31,28 @@ extern	__inline__ void
 {
 	register int	i;
 
-	if (rule->end)
-		return ;
-
-	i = 0;
-	while (i < rule->count_philo)
+	pthread_mutex_lock(&rule->mutex.end_control);
+	while (!rule->end)
 	{
-		if (rule->philos[i].kill_time < get_time())
+		pthread_mutex_unlock(&rule->mutex.end_control);
+		i = -1;
+		while (++i < rule->count_philo)
 		{
-			pthread_mutex_lock(&rule->mutex.end_control);
-			rule->end = 1;
-			p_info(&rule->philos[i], "Philos is Death");
-			pthread_mutex_unlock(&rule->mutex.end_control);
-			break ;
+			pthread_mutex_lock(&rule->philos[i].kill_control);
+			if (rule->philos[i].kill_time < get_time())
+			{
+				pthread_mutex_unlock(&rule->philos[i].kill_control);
+				p_info(&rule->philos[i], "Philos is Death");
+				pthread_mutex_lock(&rule->mutex.end_control);
+				rule->end = 1;
+				pthread_mutex_unlock(&rule->mutex.end_control);
+				break ;
+			}
+			pthread_mutex_unlock(&rule->philos[i].kill_control);
 		}
-		++i;
+		pthread_mutex_lock(&rule->mutex.end_control);
 	}
+	pthread_mutex_unlock(&rule->mutex.end_control);
 }
 
 int main(int argc, char **argv)
