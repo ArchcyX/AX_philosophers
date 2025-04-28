@@ -6,7 +6,7 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:04:17 by alermi            #+#    #+#             */
-/*   Updated: 2025/04/27 16:07:59 by alermi           ###   ########.fr       */
+/*   Updated: 2025/04/28 16:13:43 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,13 @@ void	p_info(t_philo	*philo, char *message)
 {
 	int	current_time;
 
-	current_time = get_time_ms((void *)philo->rules);
-	printf("\nms: %d | ID: %d {%s}\n", current_time, philo->philo_id,message);
+	pthread_mutex_lock(&philo->rules->mutex.end_control);
+	if (!philo->rules->end)
+	{
+		pthread_mutex_unlock(&philo->rules->mutex.end_control);
+		current_time = get_time_ms((void *)philo->rules);
+		printf("\nms: %d | ID: %d {%s}\n", current_time, philo->philo_id,message);
+	}
+	else
+		pthread_mutex_unlock(&philo->rules->mutex.end_control);
 }

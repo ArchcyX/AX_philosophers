@@ -6,7 +6,7 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:01:16 by alermi            #+#    #+#             */
-/*   Updated: 2025/04/28 15:51:35 by alermi           ###   ########.fr       */
+/*   Updated: 2025/04/28 16:11:59 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ extern	__inline__ void
 		{
 			pthread_mutex_lock(&rule->mutex.end_control);
 			rule->end = 1;
+			p_info(&rule->philos[i], "Philos is Death");
 			pthread_mutex_unlock(&rule->mutex.end_control);
 			break ;
 		}

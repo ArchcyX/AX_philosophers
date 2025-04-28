@@ -6,7 +6,7 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 09:31:24 by alermi            #+#    #+#             */
-/*   Updated: 2025/04/28 16:06:07 by alermi           ###   ########.fr       */
+/*   Updated: 2025/04/28 16:09:34 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ void	*simulation_init(void *member)
 	philo = (t_philo *)member;
 	rule = philo->rules;
 
-	printf("\n%p\n", philo->rules);
 	while (1)
 	{
 		pthread_mutex_lock(&rule->mutex.start_control);
