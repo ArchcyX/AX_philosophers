@@ -6,7 +6,7 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 18:12:32 by alermi            #+#    #+#             */
-/*   Updated: 2025/04/27 00:54:46 by alermi           ###   ########.fr       */
+/*   Updated: 2025/04/28 15:14:29 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,12 @@
 #include <sys/time.h>
 #include <unistd.h>
 
-int	get_time(void *main_struct)
+int	get_time(void)
 {
 	struct timeval	tv;
-	t_rules			*rule;
 
-	rule = (t_rules *)main_struct;
 	gettimeofday(&tv, NULL);
-	return (tv.tv_sec - rule->start);
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
 int	get_time_ms(void *main_struct)

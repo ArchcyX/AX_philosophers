@@ -6,7 +6,7 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:00:22 by alermi            #+#    #+#             */
-/*   Updated: 2025/04/27 18:19:50 by alermi           ###   ########.fr       */
+/*   Updated: 2025/04/28 16:07:28 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,14 @@ enum e_state
 
 typedef struct s_philo t_philo;
 
+typedef struct	s_mutex
+{
+	pthread_mutex_t	start_control; // change name
+	pthread_mutex_t	end_control;
+	pthread_mutex_t	total_eaten_meal;
+	
+}	t_mutex;
+
 typedef struct  s_rules
 {
 	int				count_philo;
@@ -37,11 +45,12 @@ typedef struct  s_rules
 	int				succes_round;
 	t_philo			*philos;
 	pthread_mutex_t	*fork;
-	pthread_mutex_t	mutex;
+	int				total_eaten_meal;
 	int				created_philo;
 	int				start;
 	int				game_start;
 	int				end;
+	t_mutex			mutex;
 }   t_rules;
 
 typedef struct s_philo
@@ -49,9 +58,11 @@ typedef struct s_philo
 	int				philo_id;
 	pthread_t       id;
 	int             eat_meal;
-	long long       last_meal;
+	int				eaten_meal;
+	long long		kill_time;
 	pthread_mutex_t *r_fork;
 	pthread_mutex_t *l_fork;
+	pthread_mutex_t	death_control;
 	t_rules			*rules;
 }   t_philo;
 
@@ -61,8 +72,8 @@ int		ax_atoi(char *number);
 //#############[State Funtions]#############//
 
 void	*state_selector(t_philo *philo);
-void	p_eat(t_philo *philo);
-void	p_sleep(t_philo *philo);
+void	acting(t_philo *philo);
+void	end_simulation(t_rules	*rule);
 
 
 //#############[INIT Funtions]#############//
@@ -74,17 +85,17 @@ void	*simulation_init(void *member);
 
 //#############[Fork Funtions]#############//
 
-int	fork_init(t_rules *rule);
+void	fork_init(t_rules *rule);
 
 //#############[Error functions]#############//
 
 int		put_error(char *error_message);
-void	free_imp(void *allocate);
+void	free_imp(void **allocate);
 void	free_matris(void **matris);
 
 //#############[Time-functions]#############//
 
-int		get_time(void *main_struct);
+int		get_time(void);
 int		get_time_ms(void *main_struct);
 void	ft_sleep(int milisecond, t_rules *rule);
 void	p_info(t_philo	*philo, char *message);

@@ -6,7 +6,7 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:28:36 by alermi            #+#    #+#             */
-/*   Updated: 2025/04/27 12:30:05 by alermi           ###   ########.fr       */
+/*   Updated: 2025/04/28 15:35:12 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,37 +23,31 @@ extern  __inline__  int
 	memset(&philosophers, 0, sizeof(t_philo));
 	rule->philos[i].philo_id = i;
 	rule->philos[i].rules = rule;
+	if (pthread_mutex_init(&rule->philos[i].death_control, NULL))
+		return (put_error("Mutex Not Created"));
 	if (pthread_create(&(rule->philos[i].id), 0, simulation_init,
-	 (void *)&rule->philos[i]) != 0)
-		return (1);
+		(void *)&rule->philos[i]) != 0)
+		return (put_error("Threads Not Created"));
 	return (0);
 }
 
-int    creat_enviroment(t_rules *head)
+extern __inline__ int
+	create_mutexes(t_rules *rule)
 {
-	int counter;
+	int	counter;
 
 	counter = -1;
-	head->philos = (t_philo *)malloc(head->count_philo * sizeof(t_philo));
-	head->fork = malloc(head->count_philo * sizeof(pthread_mutex_t));
-	if (!head->philos || !head->fork)
-		return (put_error("=> Malloc Error\n"));
-	while (++counter < head->count_philo)
-		if (pthread_mutex_init(&head->fork[counter], NULL) == -1)
+	while (++counter < rule->count_philo)
+		if (pthread_mutex_init(&rule->fork[counter], NULL) == -1)
 			return (1);
-	counter = -1;
-//S
-	while (++counter < head->count_philo)
-		if (creat_philo(head, counter))
-			return (1);
-	pthread_mutex_lock(&head->mutex);
-	head->start = get_time_ms((void *)head);
-	head->game_start = 1;
-	pthread_mutex_unlock(&head->mutex);
+	if (pthread_mutex_init(&rule->mutex.start_control, NULL)
+		|| pthread_mutex_init(&rule->mutex.end_control,NULL)
+		|| pthread_mutex_init(&rule->mutex.total_eaten_meal,NULL))
+		return(1);
 	return (0);
 }
-
-int fork_init(t_rules *rule)
+extern __inline__	void
+	fork_init(t_rules *rule)
 {
 	int i;
 	int next;
@@ -66,5 +60,26 @@ int fork_init(t_rules *rule)
 		rule->philos[i].l_fork = &rule->fork[next];
 		i++;
 	}
+}
+
+int    creat_enviroment(t_rules *head)
+{
+	int counter;
+
+	counter = -1;
+	head->philos = (t_philo *)malloc(head->count_philo * sizeof(t_philo));
+	head->fork = malloc(head->count_philo * sizeof(pthread_mutex_t));
+	if (!head->philos || !head->fork)
+		return (put_error("=> Malloc Error\n"));
+	if (create_mutexes(head))
+		return (put_error("=> Mutex not Created"));
+	fork_init(head);
+	while (++counter < head->count_philo)
+		if (creat_philo(head, counter))
+			return (1);
+	pthread_mutex_lock(&head->mutex.start_control);
+	head->start = get_time_ms((void *)head);
+	head->game_start = 1;
+	pthread_mutex_unlock(&head->mutex.start_control);
 	return (0);
 }

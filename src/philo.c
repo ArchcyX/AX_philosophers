@@ -6,7 +6,7 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:01:16 by alermi            #+#    #+#             */
-/*   Updated: 2025/04/27 17:53:50 by alermi           ###   ########.fr       */
+/*   Updated: 2025/04/28 15:51:35 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,36 +26,50 @@ extern __inline__ void
 		rule->must_eat = -1;
 }
 
+extern	__inline__ void
+	deat_controller(t_rules	*rule)
+{
+	register int	i;
+
+	if (rule->end)
+		return ;
+
+	i = 0;
+	while (i < rule->count_philo)
+	{
+		if (rule->philos[i].kill_time < get_time())
+		{
+			pthread_mutex_lock(&rule->mutex.end_control);
+			rule->end = 1;
+			pthread_mutex_unlock(&rule->mutex.end_control);
+			break ;
+		}
+		++i;
+	}
+}
 
 int main(int argc, char **argv)
 {
 	t_rules	rule;
 	int		i;
-	
+
 	i = 0;
 	memset(&rule, 0, sizeof(t_rules));
 	if (argc == 5 || argc == 6)
     {
 		init_values(argc, argv, &rule);
-		
 		if (creat_enviroment(&rule))
-			return (put_error("Error!!"));
-		if (fork_init(&rule) == 0)
-			put_error("{<============Program Başlatıldı=======>}");
-		usleep(1000 * 1000);// EDİT THİS
+			rule.end = 1;
 	}
     else
 		return (put_error("Error!!"));
+	deat_controller(&rule);
 	i = -1;
 	while (++i < rule.count_philo)
 		pthread_join(rule.philos[i].id, NULL);
-	i = -1;	
-	while (++i < 4)
-		if (pthread_mutex_destroy(&rule.fork[i]) == 0);
-	free_imp(rule.fork);
-	free_imp(rule.philos);
+	end_simulation(&rule);
 	return (0);
 }
 
-// creat the closing all
+// creat the closing all // TODO: CREATE A FUNCTION TO FREE ALL SHIT
 // waiting
