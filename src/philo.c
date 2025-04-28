@@ -6,7 +6,7 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:01:16 by alermi            #+#    #+#             */
-/*   Updated: 2025/04/28 17:51:20 by alermi           ###   ########.fr       */
+/*   Updated: 2025/04/28 18:10:08 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,12 @@ int main(int argc, char **argv)
 	if (argc == 5 || argc == 6)
     {
 		init_values(argc, argv, &rule);
+		if (rule.count_philo == 1)
+		{
+			printf("Çatalı Aldı");
+			ft_sleep(&rule.time_to_die, &rule);
+			printf("Çatalı Aldı");
+		}
 		if (creat_enviroment(&rule))
 			rule.end = 1;
 	}
