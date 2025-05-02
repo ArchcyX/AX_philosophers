@@ -6,7 +6,7 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 09:31:24 by alermi            #+#    #+#             */
-/*   Updated: 2025/05/02 18:17:39 by alermi           ###   ########.fr       */
+/*   Updated: 2025/05/02 20:30:51 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,34 @@
 
 /* printf("\naaa\n"); */
 
+void	take_fork(t_philo *philo)
+{
+	usleep((philo->philo_id % 3) * 100);
+	if (philo->philo_id % 2)
+	{
+		pthread_mutex_lock(philo->l_fork);
+		p_info(philo, "Sol Çatalı Aldı");
+		pthread_mutex_lock(philo->r_fork);
+		p_info(philo, "Sağ Çatalı Aldı");
+	}
+	else
+	{
+		pthread_mutex_lock(philo->r_fork);
+		p_info(philo, "Sağ Çatalı Aldı");
+		pthread_mutex_lock(philo->l_fork);
+		p_info(philo, "Sol Çatalı Aldı");
+	}
+}
+
 void	acting(t_philo *philo)
 {
 	pthread_mutex_unlock(&philo->rules->mutex.total_eaten_meal);
-	pthread_mutex_lock(philo->l_fork);
-	p_info(philo, "Sol Çatalı Aldı");
-	pthread_mutex_lock(philo->r_fork);
-	p_info(philo, "Sağ Çatalı Aldı");
-	ft_sleep(philo->rules->time_to_eat, philo->rules);
-	p_info(philo, "->Yemeği Yedi");
 	pthread_mutex_lock(&philo->kill_control);
 	philo->kill_time = get_time() + philo->rules->time_to_die;
 	pthread_mutex_unlock(&philo->kill_control);
+	take_fork(philo);
+	ft_sleep(philo->rules->time_to_eat, philo->rules);
+	p_info(philo, "->Yemeği Yedi");
 	pthread_mutex_unlock(philo->l_fork);
 	pthread_mutex_unlock(philo->r_fork);
 	p_info(philo, "Sol Çatalı Bıraktı");
@@ -64,13 +80,13 @@ extern __inline__ void
 
 	count = -1;
 	if (philo->philo_id % 2)
-		ft_sleep(3, philo->rules); // TODO: fix the sync
+		ft_sleep(2, philo->rules); // TODO: fix the sync
 	pthread_mutex_lock(&philo->rules->mutex.end_control);
 	while (!philo->rules->end)
 	{
 		pthread_mutex_unlock(&philo->rules->mutex.end_control);
 		if ((philo->rules->must_eat == philo->eaten_meal) && \
-			!!philo->rules->must_eat)
+			!!philo->rules->must_eat && philo->rules->count_philo != 1)
 			return ((void *)0);
 		pthread_mutex_lock(&philo->rules->mutex.total_eaten_meal);
 		if (philo->rules->count_philo == 1)
@@ -93,13 +109,13 @@ void	*simulation_init(void *member)
 
 	philo = (t_philo *)member;
 	rule = philo->rules;
-	while (1)
-	{
-		pthread_mutex_lock(&rule->mutex.start_control);
-		if (rule->game_start == 1)
-			break ;
-		pthread_mutex_unlock(&rule->mutex.start_control);
-	}
+	// while (1)
+	// {
+	// 	pthread_mutex_lock(&rule->mutex.start_control);
+	// 	if (rule->game_start == 1)
+	// 		break ;
+	// 	pthread_mutex_unlock(&rule->mutex.start_control);
+	// }
 	pthread_mutex_unlock(&rule->mutex.start_control);
 	pthread_mutex_lock(&philo->kill_control);
 	philo->kill_time = get_time() + rule->time_to_die;

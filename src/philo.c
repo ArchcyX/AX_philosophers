@@ -6,7 +6,7 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:01:16 by alermi            #+#    #+#             */
-/*   Updated: 2025/05/01 22:15:10 by alermi           ###   ########.fr       */
+/*   Updated: 2025/05/02 20:09:20 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,17 @@ extern __inline__ int
 	rule->time_to_die = ax_atoi(argv[2]);
 	rule->time_to_eat = ax_atoi(argv[3]);
 	rule->time_to_sleep = ax_atoi(argv[4]);
-	if (rule->count_philo <= 0
-		|| rule->time_to_die <= 0 
-		|| rule->time_to_eat <= 0
-		|| rule->time_to_sleep <= 0)
-		return (1);
+	
 	if (argc == 6)
 		rule->must_eat = ax_atoi(argv[5]);
 	else
 		rule->must_eat = -1;
+	if (rule->count_philo <= 0
+		|| rule->time_to_die <= 0 
+		|| rule->time_to_eat <= 0
+		|| rule->time_to_sleep <= 0
+		|| rule->must_eat == 0)
+		return (1);
 	return (0);
 }
  
