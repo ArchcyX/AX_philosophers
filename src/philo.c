@@ -6,28 +6,34 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:01:16 by alermi            #+#    #+#             */
-/*   Updated: 2025/04/28 18:10:08 by alermi           ###   ########.fr       */
+/*   Updated: 2025/05/01 22:15:10 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 #include <string.h>
 
-extern __inline__ void 
+extern __inline__ int
 	init_values(int argc, char **argv, t_rules *rule)
 {
 	rule->count_philo = ax_atoi(argv[1]);
 	rule->time_to_die = ax_atoi(argv[2]);
 	rule->time_to_eat = ax_atoi(argv[3]);
 	rule->time_to_sleep = ax_atoi(argv[4]);
+	if (rule->count_philo <= 0
+		|| rule->time_to_die <= 0 
+		|| rule->time_to_eat <= 0
+		|| rule->time_to_sleep <= 0)
+		return (1);
 	if (argc == 6)
 		rule->must_eat = ax_atoi(argv[5]);
 	else
 		rule->must_eat = -1;
+	return (0);
 }
-
+ 
 extern	__inline__ void
-	deat_controller(t_rules	*rule)
+	death_controller(t_rules	*rule)
 {
 	register int	i;
 
@@ -55,6 +61,22 @@ extern	__inline__ void
 	pthread_mutex_unlock(&rule->mutex.end_control);
 }
 
+extern	__inline__	int
+	single_philo(t_rules *rule)
+{
+	creat_enviroment(rule);
+	ft_sleep(rule->time_to_die, rule);
+	p_info(&rule->philos[0], "Philos is Death");
+	pthread_mutex_lock(&rule->mutex.end_control);
+	rule->end = 1;
+	pthread_mutex_unlock(&rule->mutex.end_control);
+	death_controller(rule);
+	pthread_join(rule->philos[0].id, NULL);
+	pthread_mutex_destroy(&rule->fork[0]);
+	pthread_mutex_destroy(&rule->philos[0].kill_control);
+	return (1);
+}
+
 int main(int argc, char **argv)
 {
 	t_rules	rule;
@@ -64,25 +86,19 @@ int main(int argc, char **argv)
 	memset(&rule, 0, sizeof(t_rules));
 	if (argc == 5 || argc == 6)
     {
-		init_values(argc, argv, &rule);
+		if (init_values(argc, argv, &rule))
+			return (put_error("\nError!!\n"));
 		if (rule.count_philo == 1)
-		{
-			printf("Çatalı Aldı");
-			ft_sleep(&rule.time_to_die, &rule);
-			printf("Çatalı Aldı");
-		}
+			return (single_philo(&rule));
 		if (creat_enviroment(&rule))
-			rule.end = 1;
+			rule.end = 1; //TODO: this added the lock struct
 	}
     else
 		return (put_error("Error!!"));
-	deat_controller(&rule);
+	death_controller(&rule);
 	i = -1;
 	while (++i < rule.count_philo)
 		pthread_join(rule.philos[i].id, NULL);
 	end_simulation(&rule);
 	return (0);
 }
-
-// creat the closing all // TODO: CREATE A FUNCTION TO FREE ALL SHIT
-// waiting

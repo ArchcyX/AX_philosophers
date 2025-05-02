@@ -6,7 +6,7 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:28:36 by alermi            #+#    #+#             */
-/*   Updated: 2025/04/28 17:28:43 by alermi           ###   ########.fr       */
+/*   Updated: 2025/05/01 16:21:40 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ extern  __inline__  int
 	t_philo	philosophers;
 
 	memset(&philosophers, 0, sizeof(t_philo));
-	rule->philos[i].philo_id = i;
+	rule->philos[i].philo_id = i + 1;
 	rule->philos[i].rules = rule;
 	rule->philos[i].kill_time = get_time() + rule->time_to_die;
 	if (pthread_mutex_init(&rule->philos[i].kill_control, NULL))
@@ -47,10 +47,11 @@ extern __inline__ int
 		return(1);
 	return (0);
 }
+
 extern __inline__	void
 	fork_init(t_rules *rule)
 {
-	int i;
+	register int i;
 	int next;
 
 	i = 0;

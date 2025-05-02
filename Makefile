@@ -1,6 +1,6 @@
 NAME = philo
 CC = cc
-CFLAGS =  -pthread -fsanitize=thread -g
+CFLAGS = -g #-pthread -fsanitize=thread
 RM = rm -rf
 
 SRC =	./src/error_exit.c		\

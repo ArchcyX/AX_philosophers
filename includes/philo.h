@@ -6,7 +6,7 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:00:22 by alermi            #+#    #+#             */
-/*   Updated: 2025/04/28 17:28:51 by alermi           ###   ########.fr       */
+/*   Updated: 2025/05/01 14:11:54 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ void	end_simulation(t_rules	*rule);
 
 //#############[INIT Funtions]#############//
 
-void	init_values(int argc, char **argv, t_rules *rule);
 int		creat_enviroment(t_rules *head);
 int		creat_philo(t_rules *head, int i);
 void	*simulation_init(void *member);

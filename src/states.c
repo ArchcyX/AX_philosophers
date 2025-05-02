@@ -6,7 +6,7 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 09:31:24 by alermi            #+#    #+#             */
-/*   Updated: 2025/04/28 18:07:18 by alermi           ###   ########.fr       */
+/*   Updated: 2025/05/02 18:17:39 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,14 @@
 #include <sys/time.h>
 #include <unistd.h>
 
+/* printf("\naaa\n"); */
+
 void	acting(t_philo *philo)
 {
 	pthread_mutex_unlock(&philo->rules->mutex.total_eaten_meal);
 	pthread_mutex_lock(philo->l_fork);
 	p_info(philo, "Sol Çatalı Aldı");
-	pthread_mutex_lock(philo->r_fork); // HERE
+	pthread_mutex_lock(philo->r_fork);
 	p_info(philo, "Sağ Çatalı Aldı");
 	ft_sleep(philo->rules->time_to_eat, philo->rules);
 	p_info(philo, "->Yemeği Yedi");
@@ -41,10 +43,28 @@ void	acting(t_philo *philo)
 }
 
 extern __inline__ void
+	singler_philo(t_philo *philo)
+{
+	static int	counter = 0;
+
+	pthread_mutex_unlock(&philo->rules->mutex.total_eaten_meal);
+	if (counter == 0)
+	{
+		pthread_mutex_lock(philo->l_fork);
+		p_info(philo, "Sol Çatalı Aldı");
+		counter++;
+	}
+		
+}
+
+extern __inline__ void
     *state_controller(t_philo *philo)
 {
-	if (philo->philo_id % 2 == 0)
-		ft_sleep(philo->rules->time_to_eat / 4, philo->rules);
+	int	count;
+
+	count = -1;
+	if (philo->philo_id % 2)
+		ft_sleep(3, philo->rules); // TODO: fix the sync
 	pthread_mutex_lock(&philo->rules->mutex.end_control);
 	while (!philo->rules->end)
 	{
@@ -53,12 +73,14 @@ extern __inline__ void
 			!!philo->rules->must_eat)
 			return ((void *)0);
 		pthread_mutex_lock(&philo->rules->mutex.total_eaten_meal);
-		if ((philo->rules->total_eaten_meal \
+		if (philo->rules->count_philo == 1)
+			singler_philo(philo);
+		else if ((philo->rules->total_eaten_meal \
 			/ philo->rules->count_philo) \
 			== philo->eaten_meal)
 			acting(philo);
 		else
-			pthread_mutex_unlock(&philo->rules->mutex.total_eaten_meal);
+			pthread_mutex_unlock(&philo->rules->mutex.total_eaten_meal);		
 		pthread_mutex_lock(&philo->rules->mutex.end_control);
 	}
 	pthread_mutex_unlock(&philo->rules->mutex.end_control);
@@ -82,5 +104,6 @@ void	*simulation_init(void *member)
 	pthread_mutex_lock(&philo->kill_control);
 	philo->kill_time = get_time() + rule->time_to_die;
 	pthread_mutex_unlock(&philo->kill_control);
+	//if (rule->count_philo != 1)
 	state_controller(philo);
 }
