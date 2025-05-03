@@ -6,7 +6,7 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:00:22 by alermi            #+#    #+#             */
-/*   Updated: 2025/05/01 14:11:54 by alermi           ###   ########.fr       */
+/*   Updated: 2025/05/03 16:48:53 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct s_philo t_philo;
 
 typedef struct	s_mutex
 {
-	pthread_mutex_t	start_control; // change name
+	pthread_mutex_t	start_control;
 	pthread_mutex_t	end_control;
 	pthread_mutex_t	total_eaten_meal;
 }	t_mutex;

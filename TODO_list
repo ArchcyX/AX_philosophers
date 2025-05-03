@@ -20,10 +20,9 @@
 
 |================ [TO DO List] ===================|
 
-
-- [ ] Fix the success round struct if the succces case in this moment
-- [x] Check the all control on the code
 - [ ] Check the all test case in case
+- [ ] Fix the success round struct if the succces case in this moment
+- [ ] Check the all control on the code
 
 |================ [Code struct] ===================|
 
@@ -33,3 +32,40 @@
 - [ ] Control the leaks
 
 
+|=============[Check All the Test Case]=============|
+
+##{Test Case Compile}
+- [ ] ./philo 0 satates 
+- [ ] valgrind
+#####################
+- [ ] ./philo 0 satates 
+- [ ] valgrind
+#####################
+- [ ] ./philo 0 satates 
+- [ ] valgrind
+#####################
+- [ ] ./philo 0 satates 
+- [ ] valgrind
+
+|==========[Mandatory Test Cases]==========|
+
+check the steal a fork???
+
+#####################
+- [ ] ./philo 1 800 100 100 => should death  
+- [ ] valgrind
+#####################
+- [ ] ./philo 5 800 200 200 => no should die one 
+- [ ] valgrind
+#####################
+- [ ] ./philo 6 800 200 200 7 => seven times eaten
+- [ ] valgrind
+#####################
+- [ ] ./philo 4 410 200 200 no should one die
+- [ ] valgrind
+#####################
+- [ ] ./philo 4 310 200 100 should die 
+- [ ] valgrind
+#####################
+- [ ] ./philo 2 philosophers 10 ms
+- [ ] valgrind
