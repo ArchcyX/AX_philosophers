@@ -6,7 +6,7 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:00:22 by alermi            #+#    #+#             */
-/*   Updated: 2025/05/03 16:48:53 by alermi           ###   ########.fr       */
+/*   Updated: 2025/05/03 17:49:22 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ int		ax_atoi(char *number);
 void	*state_selector(t_philo *philo);
 void	acting(t_philo *philo);
 void	end_simulation(t_rules	*rule);
-
 
 //#############[INIT Funtions]#############//
 

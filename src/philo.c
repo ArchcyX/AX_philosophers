@@ -6,7 +6,7 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:01:16 by alermi            #+#    #+#             */
-/*   Updated: 2025/05/02 20:09:20 by alermi           ###   ########.fr       */
+/*   Updated: 2025/05/03 17:49:15 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,18 @@ extern __inline__ int
 		return (1);
 	return (0);
 }
- 
+
+extern __inline__ void
+	death_or_success(t_rules *rule, int i)
+{
+	pthread_mutex_lock(&rule->mutex.total_eaten_meal);
+	if (rule->total_eaten_meal / rule->count_philo == rule->must_eat)
+		printf("\n|===> SUCCESS <===|\n");
+	else
+		p_info(&rule->philos[i], "Philos is Death");
+	pthread_mutex_unlock(&rule->mutex.total_eaten_meal);
+}
+
 extern	__inline__ void
 	death_controller(t_rules	*rule)
 {
@@ -50,7 +61,7 @@ extern	__inline__ void
 			if (rule->philos[i].kill_time < get_time())
 			{
 				pthread_mutex_unlock(&rule->philos[i].kill_control);
-				p_info(&rule->philos[i], "Philos is Death");
+				death_or_success(rule, i);
 				pthread_mutex_lock(&rule->mutex.end_control);
 				rule->end = 1;
 				pthread_mutex_unlock(&rule->mutex.end_control);
