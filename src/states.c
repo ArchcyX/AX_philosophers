@@ -6,7 +6,7 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 09:31:24 by alermi            #+#    #+#             */
-/*   Updated: 2025/05/02 20:30:51 by alermi           ###   ########.fr       */
+/*   Updated: 2025/05/03 14:59:49 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 #include <stdio.h> 
 #include <sys/time.h>
 #include <unistd.h>
-
-/* printf("\naaa\n"); */
 
 void	take_fork(t_philo *philo)
 {
@@ -80,7 +78,7 @@ extern __inline__ void
 
 	count = -1;
 	if (philo->philo_id % 2)
-		ft_sleep(2, philo->rules); // TODO: fix the sync
+		ft_sleep(2, philo->rules);
 	pthread_mutex_lock(&philo->rules->mutex.end_control);
 	while (!philo->rules->end)
 	{
@@ -109,17 +107,16 @@ void	*simulation_init(void *member)
 
 	philo = (t_philo *)member;
 	rule = philo->rules;
-	// while (1)
-	// {
-	// 	pthread_mutex_lock(&rule->mutex.start_control);
-	// 	if (rule->game_start == 1)
-	// 		break ;
-	// 	pthread_mutex_unlock(&rule->mutex.start_control);
-	// }
+	while (1)
+	{
+		pthread_mutex_lock(&rule->mutex.start_control);
+		if (rule->game_start == 1)
+			break ;
+		pthread_mutex_unlock(&rule->mutex.start_control);
+	}
 	pthread_mutex_unlock(&rule->mutex.start_control);
 	pthread_mutex_lock(&philo->kill_control);
 	philo->kill_time = get_time() + rule->time_to_die;
 	pthread_mutex_unlock(&philo->kill_control);
-	//if (rule->count_philo != 1)
 	state_controller(philo);
 }

@@ -20,10 +20,16 @@
 
 |================ [TO DO List] ===================|
 
-- Thread oluştur
-- Threadleri beklet
-- Yaşam döngüsüne başlat [Deadlock olabilir]
 
+- [ ] Fix the success round struct if the succces case in this moment
+- [ ] Check the all control on the code
+- [ ] Check the all test case in case
 
 |================ [Code struct] ===================|
+
+- [ ] Control the comment lines
+- [ ] Control of the libs
+- [ ] Control of the code route 
+- [ ] Control the leaks
+
 
