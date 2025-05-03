@@ -22,7 +22,7 @@
 
 
 - [ ] Fix the success round struct if the succces case in this moment
-- [ ] Check the all control on the code
+- [x] Check the all control on the code
 - [ ] Check the all test case in case
 
 |================ [Code struct] ===================|
