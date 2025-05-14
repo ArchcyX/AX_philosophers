@@ -6,7 +6,7 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:28:36 by alermi            #+#    #+#             */
-/*   Updated: 2025/05/01 16:21:40 by alermi           ###   ########.fr       */
+/*   Updated: 2025/05/09 17:04:06 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ extern  __inline__  int
 {
 	t_philo	philosophers;
 
-	memset(&philosophers, 0, sizeof(t_philo));
+	memset(&(rule->philos[i]), 0, sizeof(t_philo));
 	rule->philos[i].philo_id = i + 1;
 	rule->philos[i].rules = rule;
 	rule->philos[i].kill_time = get_time() + rule->time_to_die;
@@ -75,10 +75,10 @@ int    creat_enviroment(t_rules *head)
 		return (put_error("=> Malloc Error\n"));
 	if (create_mutexes(head))
 		return (put_error("=> Mutex not Created"));
-	fork_init(head);
 	while (++counter < head->count_philo)
 		if (creat_philo(head, counter))
 			return (1);
+	fork_init(head);
 	pthread_mutex_lock(&head->mutex.start_control);
 	head->start = get_time_ms((void *)head);
 	head->game_start = 1;

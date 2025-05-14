@@ -6,7 +6,7 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 09:31:24 by alermi            #+#    #+#             */
-/*   Updated: 2025/05/03 17:44:19 by alermi           ###   ########.fr       */
+/*   Updated: 2025/05/11 15:48:24 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,12 @@ void	take_fork(t_philo *philo)
 void	acting(t_philo *philo)
 {
 	pthread_mutex_unlock(&philo->rules->mutex.total_eaten_meal);
+	take_fork(philo);
+	p_info(philo, "->Yemeği Yedi");
 	pthread_mutex_lock(&philo->kill_control);
 	philo->kill_time = get_time() + philo->rules->time_to_die;
 	pthread_mutex_unlock(&philo->kill_control);
-	take_fork(philo);
 	ft_sleep(philo->rules->time_to_eat, philo->rules);
-	p_info(philo, "->Yemeği Yedi");
 	pthread_mutex_unlock(philo->l_fork);
 	pthread_mutex_unlock(philo->r_fork);
 	p_info(philo, "Sol Çatalı Bıraktı");

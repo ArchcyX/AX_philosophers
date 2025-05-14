@@ -6,7 +6,7 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:01:16 by alermi            #+#    #+#             */
-/*   Updated: 2025/05/03 17:49:15 by alermi           ###   ########.fr       */
+/*   Updated: 2025/05/09 18:29:35 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ extern	__inline__	int
 	pthread_mutex_lock(&rule->mutex.end_control);
 	rule->end = 1;
 	pthread_mutex_unlock(&rule->mutex.end_control);
+	pthread_mutex_unlock(&rule->fork[0]);
 	death_controller(rule);
 	pthread_join(rule->philos[0].id, NULL);
 	pthread_mutex_destroy(&rule->fork[0]);
@@ -104,7 +105,11 @@ int main(int argc, char **argv)
 		if (rule.count_philo == 1)
 			return (single_philo(&rule));
 		if (creat_enviroment(&rule))
-			rule.end = 1; //TODO: this added the lock struct
+		{
+			pthread_mutex_lock(&rule.mutex.end_control);
+			rule.end = 1;
+			pthread_mutex_unlock(&rule.mutex.end_control);
+		}
 	}
     else
 		return (put_error("Error!!"));

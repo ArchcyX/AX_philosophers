@@ -6,7 +6,7 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:00:22 by alermi            #+#    #+#             */
-/*   Updated: 2025/05/03 17:49:22 by alermi           ###   ########.fr       */
+/*   Updated: 2025/05/11 15:35:32 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,6 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <pthread.h>
-
-enum e_state
-{
-	e_thinking,
-	e_sleeping,
-	e_eating
-};
 
 typedef struct s_philo t_philo;
 
