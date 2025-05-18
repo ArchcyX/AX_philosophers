@@ -6,7 +6,7 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 09:31:24 by alermi            #+#    #+#             */
-/*   Updated: 2025/05/11 15:48:24 by alermi           ###   ########.fr       */
+/*   Updated: 2025/05/18 13:41:15 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 void	take_fork(t_philo *philo)
 {
-	usleep((philo->philo_id % 3) * 100);
+	ft_sleep((philo->philo_id % 3) * 100, philo->rules);
 	if (philo->philo_id % 2)
 	{
 		pthread_mutex_lock(philo->l_fork);
@@ -113,6 +113,6 @@ void	*simulation_init(void *member)
 	philo->kill_time = get_time() + rule->time_to_die;
 	pthread_mutex_unlock(&philo->kill_control);
 	if (philo->philo_id % 2)
-		ft_sleep(2, philo->rules);
+		ft_sleep(1, philo->rules);
 	state_controller(philo, -1);
 }
