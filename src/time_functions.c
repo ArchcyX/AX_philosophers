@@ -6,7 +6,7 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 18:12:32 by alermi            #+#    #+#             */
-/*   Updated: 2025/04/29 12:27:04 by alermi           ###   ########.fr       */
+/*   Updated: 2025/05/18 13:47:23 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,5 @@ void	ft_sleep(int milisecond, t_rules *rule)
 		current_time = get_time_ms(rule);
 		usleep(100);
 	}
+	// TODO: FIX THE SLEEP WHILE;
 }

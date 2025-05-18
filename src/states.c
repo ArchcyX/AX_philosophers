@@ -6,7 +6,7 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 09:31:24 by alermi            #+#    #+#             */
-/*   Updated: 2025/05/18 13:41:15 by alermi           ###   ########.fr       */
+/*   Updated: 2025/05/18 13:44:33 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 void	take_fork(t_philo *philo)
 {
-	ft_sleep((philo->philo_id % 3) * 100, philo->rules);
+	ft_sleep(((philo->philo_id % 3) * 100) / 1000, philo->rules);
 	if (philo->philo_id % 2)
 	{
 		pthread_mutex_lock(philo->l_fork);
