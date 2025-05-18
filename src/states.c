@@ -6,7 +6,7 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 09:31:24 by alermi            #+#    #+#             */
-/*   Updated: 2025/05/18 19:52:19 by alermi           ###   ########.fr       */
+/*   Updated: 2025/05/18 21:00:54 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,45 +17,64 @@
 
 void	take_fork(t_philo *philo)
 {
-	usleep((philo->philo_id % 3) * 100);
+	//usleep((philo->philo_id % 3) * 100);
 	if (philo->philo_id % 2)
 	{
 		pthread_mutex_lock(philo->l_fork);
-		p_info(philo, "Sol Çatalı Aldı");
+		p_info(philo, "has taken a fork");
 		pthread_mutex_lock(philo->r_fork);
-		p_info(philo, "Sağ Çatalı Aldı");
+		p_info(philo, "has taken a fork"); //right
 	}
 	else
 	{
 		pthread_mutex_lock(philo->r_fork);
-		p_info(philo, "Sağ Çatalı Aldı");
+		p_info(philo, "has taken a fork"); //right
 		pthread_mutex_lock(philo->l_fork);
-		p_info(philo, "Sol Çatalı Aldı");
+		p_info(philo, "has taken a fork");
 	}
+}
+
+extern __inline__ void
+	thinking(t_philo *philo)
+{
+	t_rules	*rule;
+
+	rule = philo->rules;
+	p_info(philo, "is thinking");
+//	if (philo->rules->time_to_die -(philo->rules->time_to_eat + philo->rules->time_to_die))
+//		usleep((philo->rules->time_to_die - philo->rules->time_to_eat - philo->rules->time_to_eat) / 2);	
+	if (!(rule->count_philo % 2) && rule->time_to_eat <= rule->time_to_sleep)
+		;
+	else if (!(rule->count_philo % 2) && rule->time_to_eat > rule->time_to_sleep)
+		usleep(rule->time_to_eat - rule->time_to_sleep);
+	else if ((rule->count_philo % 2) && rule->time_to_eat == rule->time_to_sleep)
+		usleep(rule->time_to_eat);
+	else if ((rule->count_philo % 2) && rule->time_to_eat < rule->time_to_sleep)
+		usleep((rule->time_to_eat * 2) - rule->time_to_sleep);		
+	else if ((rule->count_philo % 2) && rule->time_to_eat > rule->time_to_sleep)
+		usleep((rule->time_to_eat * 2) - rule->time_to_sleep);
 }
 
 void	acting(t_philo *philo)
 {
 	pthread_mutex_unlock(&philo->rules->mutex.total_eaten_meal);
 	take_fork(philo);
-	p_info(philo, "->Yemeği Yedi");
+	p_info(philo, "is eating");
+	ft_sleep(philo->rules->time_to_eat, philo->rules);
 	pthread_mutex_lock(&philo->kill_control);
 	philo->kill_time = get_time() + philo->rules->time_to_die;
 	pthread_mutex_unlock(&philo->kill_control);
-	ft_sleep(philo->rules->time_to_eat, philo->rules);
 	pthread_mutex_unlock(philo->l_fork);
 	pthread_mutex_unlock(philo->r_fork);
-	p_info(philo, "Sol Çatalı Bıraktı");
-	p_info(philo, "Sağ Çatalı Bıraktı");
+	//p_info(philo, "Sol Çatalı Bıraktı");
+	//p_info(philo, "Sağ Çatalı Bıraktı");
 	philo->eaten_meal++;
 	pthread_mutex_lock(&philo->rules->mutex.total_eaten_meal);
 	philo->rules->total_eaten_meal++;
 	pthread_mutex_unlock(&philo->rules->mutex.total_eaten_meal);
-	p_info(philo, "Sleeping");
+	p_info(philo, "is sleeping");
 	ft_sleep(philo->rules->time_to_sleep, philo->rules);
-	p_info(philo, "Thinking");
-	if (philo->rules->time_to_die -(philo->rules->time_to_eat + philo->rules->time_to_die))
-		usleep((philo->rules->time_to_die - philo->rules->time_to_eat - philo->rules->time_to_eat) / 2);
+	thinking(philo);
 }
 
 extern __inline__ void
@@ -115,6 +134,6 @@ void	*simulation_init(void *member)
 	philo->kill_time = get_time() + rule->time_to_die;
 	pthread_mutex_unlock(&philo->kill_control);
 	if (philo->philo_id % 2)
-		ft_sleep(1, philo->rules);
+		usleep(100);
 	state_controller(philo, -1);
 }
