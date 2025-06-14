@@ -18,16 +18,16 @@
 # include <unistd.h>
 # include <pthread.h>
 
-typedef struct s_philo t_philo;
+typedef struct s_philo	t_philo;
 
-typedef struct	s_mutex
+typedef struct s_mutex
 {
 	pthread_mutex_t	start_control;
 	pthread_mutex_t	end_control;
 	pthread_mutex_t	total_eaten_meal;
 }	t_mutex;
 
-typedef struct  s_rules
+typedef struct s_rules
 {
 	int				count_philo;
 	int				time_to_die;
@@ -43,20 +43,20 @@ typedef struct  s_rules
 	int				game_start;
 	int				end;
 	t_mutex			mutex;
-}   t_rules;
+}	t_rules;
 
 typedef struct s_philo
 {
 	int				philo_id;
-	pthread_t       id;
-	int             eat_meal;
+	pthread_t		id;
+	int				eat_meal;
 	int				eaten_meal;
 	long long		kill_time;
 	pthread_mutex_t	kill_control;
-	pthread_mutex_t *r_fork;
-	pthread_mutex_t *l_fork;
+	pthread_mutex_t	*r_fork;
+	pthread_mutex_t	*l_fork;
 	t_rules			*rules;
-}   t_philo;
+}	t_philo;
 
 void	number_check(char *number);
 int		ax_atoi(char *number);
