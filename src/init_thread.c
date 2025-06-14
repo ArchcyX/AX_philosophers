@@ -15,7 +15,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-extern  __inline__  int
+extern __inline__ int
 	creat_philo(t_rules *rule, int i)
 {
 	t_philo	philosophers;
@@ -27,7 +27,7 @@ extern  __inline__  int
 	if (pthread_mutex_init(&rule->philos[i].kill_control, NULL))
 		return (put_error("Mutex Not Created"));
 	if (pthread_create(&(rule->philos[i].id), 0, simulation_init,
-		(void *)&rule->philos[i]) != 0)
+			(void *)&rule->philos[i]) != 0)
 		return (put_error("Threads Not Created"));
 	return (0);
 }
@@ -42,17 +42,17 @@ extern __inline__ int
 		if (pthread_mutex_init(&rule->fork[counter], NULL) == -1)
 			return (1);
 	if (pthread_mutex_init(&rule->mutex.start_control, NULL)
-		|| pthread_mutex_init(&rule->mutex.end_control,NULL)
-		|| pthread_mutex_init(&rule->mutex.total_eaten_meal,NULL))
-		return(1);
+		|| pthread_mutex_init(&rule->mutex.end_control, NULL)
+		|| pthread_mutex_init(&rule->mutex.total_eaten_meal, NULL))
+		return (1);
 	return (0);
 }
 
 extern __inline__	void
 	fork_init(t_rules *rule)
 {
-	register int i;
-	int next;
+	register int	i;
+	int				next;
 
 	i = 0;
 	while (i < rule->count_philo)
@@ -64,9 +64,9 @@ extern __inline__	void
 	}
 }
 
-int    creat_enviroment(t_rules *head)
+int	creat_enviroment(t_rules *head)
 {
-	int counter;
+	int	counter;
 
 	counter = -1;
 	head->philos = (t_philo *)malloc(head->count_philo * sizeof(t_philo));

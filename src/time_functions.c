@@ -25,9 +25,9 @@ int	get_time(void)
 
 int	get_time_ms(void *main_struct)
 {
-	struct	timeval	tv;
+	struct timeval	tv;
 	t_rules			*rule;
-	
+
 	rule = (t_rules *)main_struct;
 	gettimeofday(&tv, NULL);
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000) - rule->start);
@@ -56,14 +56,12 @@ void	ft_sleep(int milliseconds, t_rules *rule)
 	start_time = get_time_ms(rule);
 	target_time = start_time + milliseconds;
 	time_left = milliseconds;
-
 	while (time_left > 0)
 	{
 		if (time_left > 10)
 			usleep(time_left * 800); // uyuma süresi hedefin biraz altında kalsın
 		else
 			usleep(100); // çok kısa kalan sürelerde hassas uyuma
-
 		time_left = target_time - get_time_ms(rule);
 	}
 }

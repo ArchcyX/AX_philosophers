@@ -20,13 +20,12 @@ extern __inline__ int
 	rule->time_to_die = ax_atoi(argv[2]);
 	rule->time_to_eat = ax_atoi(argv[3]);
 	rule->time_to_sleep = ax_atoi(argv[4]);
-	
 	if (argc == 6)
 		rule->must_eat = ax_atoi(argv[5]);
 	else
 		rule->must_eat = -1;
 	if (rule->count_philo <= 0
-		|| rule->time_to_die <= 0 
+		|| rule->time_to_die <= 0
 		|| rule->time_to_eat <= 0
 		|| rule->time_to_sleep <= 0
 		|| rule->must_eat == 0)
@@ -91,7 +90,7 @@ extern	__inline__	int
 	return (1);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	t_rules	rule;
 	int		i;
@@ -99,7 +98,7 @@ int main(int argc, char **argv)
 	i = 0;
 	memset(&rule, 0, sizeof(t_rules));
 	if (argc == 5 || argc == 6)
-    {
+	{
 		if (init_values(argc, argv, &rule))
 			return (put_error("\nError!!\n"));
 		if (rule.count_philo == 1)
@@ -111,7 +110,7 @@ int main(int argc, char **argv)
 			pthread_mutex_unlock(&rule.mutex.end_control);
 		}
 	}
-    else
+	else
 		return (put_error("Error!!"));
 	death_controller(&rule);
 	i = -1;

@@ -23,11 +23,9 @@ extern __inline__ void
 	i--;
 	while (number[++i])
 //		if (number[i] < '0' || number[i] > '9' || i > 11)
-//			error_exit("Error!!", 1);		
-	return ;
+//			error_exit("Error!!", 1);
+		return ;
 }
-
-// You must edit this page;
 
 int	ax_atoi(char *number)
 {
@@ -56,6 +54,7 @@ int	ax_atoi(char *number)
 //		error_exit("Error!!", 1);
 	return ((int)(res * sign));
 }
+
 void	p_info(t_philo	*philo, char *message)
 {
 	int	current_time;
@@ -65,7 +64,7 @@ void	p_info(t_philo	*philo, char *message)
 	{
 		pthread_mutex_unlock(&philo->rules->mutex.end_control);
 		current_time = get_time_ms((void *)philo->rules);
-		printf("%d  %d %s\n", current_time, philo->philo_id,message);
+		printf("%d  %d %s\n", current_time, philo->philo_id, message);
 	}
 	else
 		pthread_mutex_unlock(&philo->rules->mutex.end_control);

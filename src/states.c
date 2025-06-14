@@ -6,12 +6,11 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 09:31:24 by alermi            #+#    #+#             */
-/*   Updated: 2025/06/14 17:23:12 by alermi           ###   ########.fr       */
+/*   Updated: 2025/06/14 17:25:03 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
-#include <stdio.h> 
 #include <sys/time.h>
 #include <unistd.h>
 
@@ -67,8 +66,6 @@ void	acting(t_philo *philo)
 	ft_sleep(philo->rules->time_to_eat, philo->rules);
 	pthread_mutex_unlock(philo->l_fork);
 	pthread_mutex_unlock(philo->r_fork);
-	//p_info(philo, "Sol Çatalı Bıraktı");
-	//p_info(philo, "Sağ Çatalı Bıraktı");
 	philo->eaten_meal++;
 	pthread_mutex_lock(&philo->rules->mutex.total_eaten_meal);
 	philo->rules->total_eaten_meal++;
@@ -96,7 +93,7 @@ extern __inline__ void
 }
 
 extern __inline__ void
-    *state_controller(t_philo *philo, int counter)
+	*state_controller(t_philo *philo, int counter)
 {
 	pthread_mutex_lock(&philo->rules->mutex.end_control);
 	while (!philo->rules->end)
@@ -113,7 +110,7 @@ extern __inline__ void
 			== philo->eaten_meal)
 			acting(philo);
 		else
-			pthread_mutex_unlock(&philo->rules->mutex.total_eaten_meal);		
+			pthread_mutex_unlock(&philo->rules->mutex.total_eaten_meal);
 		pthread_mutex_lock(&philo->rules->mutex.end_control);
 	}
 	pthread_mutex_unlock(&philo->rules->mutex.end_control);
