@@ -6,7 +6,7 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 09:31:24 by alermi            #+#    #+#             */
-/*   Updated: 2025/06/14 17:34:50 by alermi           ###   ########.fr       */
+/*   Updated: 2025/06/14 17:44:34 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,20 @@
 void	take_fork(t_philo *philo)
 {
 	//usleep((philo->philo_id % 3) * 100);
-	if (philo->philo_id % 2)
-	{
-		pthread_mutex_lock(philo->l_fork);
-		p_info(philo, "has taken a fork");
-		pthread_mutex_lock(philo->r_fork);
-		p_info(philo, "has taken a fork"); //right
-	}
-	else
-	{
-		pthread_mutex_lock(philo->r_fork);
-		p_info(philo, "has taken a fork"); //right
-		pthread_mutex_lock(philo->l_fork);
-		p_info(philo, "has taken a fork");
-	}
+	 if (philo->philo_id % 2)
+	 {
+	 	pthread_mutex_lock(philo->l_fork);
+	 	p_info(philo, "has taken a fork");
+	 	pthread_mutex_lock(philo->r_fork);
+	 	p_info(philo, "has taken a fork"); //right
+	 }
+	 else
+	 {
+	 	pthread_mutex_lock(philo->r_fork);
+	 	p_info(philo, "has taken a fork"); //right
+	 	pthread_mutex_lock(philo->l_fork);
+	 	p_info(philo, "has taken a fork");
+	 }
 }
 
 extern __inline__ void
