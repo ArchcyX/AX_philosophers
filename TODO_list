@@ -69,3 +69,4 @@ check the steal a fork???
 #####################
 - [ ] ./philo 2 philosophers 10 ms
 - [ ] valgrind
+

@@ -6,7 +6,7 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:04:17 by alermi            #+#    #+#             */
-/*   Updated: 2025/05/18 20:48:24 by alermi           ###   ########.fr       */
+/*   Updated: 2025/05/22 19:11:10 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ int	ax_atoi(char *number)
 //		error_exit("Error!!", 1);
 	return ((int)(res * sign));
 }
-
 void	p_info(t_philo	*philo, char *message)
 {
 	int	current_time;
