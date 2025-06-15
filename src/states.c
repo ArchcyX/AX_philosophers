@@ -6,7 +6,7 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 09:31:24 by alermi            #+#    #+#             */
-/*   Updated: 2025/06/14 17:44:34 by alermi           ###   ########.fr       */
+/*   Updated: 2025/06/15 12:04:46 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 void	take_fork(t_philo *philo)
 {
-	//usleep((philo->philo_id % 3) * 100);
+	usleep((philo->philo_id % 3) * 100);
 	 if (philo->philo_id % 2)
 	 {
 	 	pthread_mutex_lock(philo->l_fork);
@@ -40,18 +40,18 @@ extern __inline__ void
 
 	rule = philo->rules;
 	p_info(philo, "is thinking");
-	if (philo->rules->time_to_die -(philo->rules->time_to_eat + philo->rules->time_to_die))
-		ft_sleep((philo->rules->time_to_die - philo->rules->time_to_eat - philo->rules->time_to_eat) / 2, philo->rules);	
-	// if (!(rule->count_philo % 2) && rule->time_to_eat <= rule->time_to_sleep)
-	// 	;
-	// else if (!(rule->count_philo % 2) && rule->time_to_eat > rule->time_to_sleep)
-	// 	ft_sleep(rule->time_to_eat - rule->time_to_sleep , philo->rules);
-	// else if ((rule->count_philo % 2) && rule->time_to_eat == rule->time_to_sleep)
-	// 	ft_sleep(rule->time_to_eat, philo->rules);
-	// else if ((rule->count_philo % 2) && rule->time_to_eat < rule->time_to_sleep)
-	// 	ft_sleep((rule->time_to_eat * 2) - rule->time_to_sleep, philo->rules);		
-	// else if ((rule->count_philo % 2) && rule->time_to_eat > rule->time_to_sleep)
-	// 	ft_sleep((rule->time_to_eat * 2) - rule->time_to_sleep, philo->rules);
+	//if (philo->rules->time_to_die -(philo->rules->time_to_eat + philo->rules->time_to_die))
+	//	ft_sleep((philo->rules->time_to_die - philo->rules->time_to_eat - philo->rules->time_to_eat) / 2, philo->rules);	
+	 if (!(rule->count_philo % 2) && rule->time_to_eat <= rule->time_to_sleep)
+	 	;
+	 else if (!(rule->count_philo % 2) && rule->time_to_eat > rule->time_to_sleep)
+	 	ft_sleep(rule->time_to_eat - rule->time_to_sleep , philo->rules);
+	 else if ((rule->count_philo % 2) && rule->time_to_eat == rule->time_to_sleep)
+	 	ft_sleep(rule->time_to_eat, philo->rules);
+	 else if ((rule->count_philo % 2) && rule->time_to_eat < rule->time_to_sleep)
+	 	ft_sleep((rule->time_to_eat * 2) - rule->time_to_sleep, philo->rules);		
+	 else if ((rule->count_philo % 2) && rule->time_to_eat > rule->time_to_sleep)
+	 	ft_sleep((rule->time_to_eat * 2) - rule->time_to_sleep, philo->rules);
 	p_info(philo, "think finish");
 }
 
@@ -59,10 +59,10 @@ void	acting(t_philo *philo)
 {
 	pthread_mutex_unlock(&philo->rules->mutex.total_eaten_meal);
 	take_fork(philo);
+	p_info(philo, "is eating");
 	pthread_mutex_lock(&philo->kill_control);
 	philo->kill_time = get_time() + philo->rules->time_to_die;
 	pthread_mutex_unlock(&philo->kill_control);
-	p_info(philo, "is eating");
 	ft_sleep(philo->rules->time_to_eat, philo->rules);
 	pthread_mutex_unlock(philo->l_fork);
 	pthread_mutex_unlock(philo->r_fork);
