@@ -6,7 +6,7 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 09:31:24 by alermi            #+#    #+#             */
-/*   Updated: 2025/06/16 15:25:19 by alermi           ###   ########.fr       */
+/*   Updated: 2025/06/16 15:29:43 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ void	acting(t_philo *philo)
 	pthread_mutex_lock(&philo->rules->mutex.total_eaten_meal);
 	philo->rules->total_eaten_meal++;
 	pthread_mutex_unlock(&philo->rules->mutex.total_eaten_meal);
-
 	p_info(philo, "is sleeping");
 	ft_sleep(philo->rules->time_to_sleep, philo->rules);
 	thinking(philo);
