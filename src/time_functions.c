@@ -6,7 +6,7 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 18:12:32 by alermi            #+#    #+#             */
-/*   Updated: 2025/06/16 17:34:37 by alermi           ###   ########.fr       */
+/*   Updated: 2025/06/16 23:31:17 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ void	ft_sleep(int milisecond, t_rules *rule)
 	current_time = start_time;
 	while (current_time - start_time < milisecond)
 	{
-		if (exit_state(rule))
-			break ;
 		current_time = get_time_ms(rule);
 		usleep(100);
 	}
