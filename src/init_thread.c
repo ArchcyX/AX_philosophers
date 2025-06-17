@@ -6,7 +6,7 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:28:36 by alermi            #+#    #+#             */
-/*   Updated: 2025/05/09 17:04:06 by alermi           ###   ########.fr       */
+/*   Updated: 2025/06/17 20:02:54 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
 extern __inline__ int
 	creat_philo(t_rules *rule, int i)
 {
-	t_philo	philosophers;
-
 	memset(&(rule->philos[i]), 0, sizeof(t_philo));
 	rule->philos[i].philo_id = i + 1;
 	rule->philos[i].rules = rule;

@@ -6,7 +6,7 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 18:12:32 by alermi            #+#    #+#             */
-/*   Updated: 2025/06/16 23:31:17 by alermi           ###   ########.fr       */
+/*   Updated: 2025/06/17 20:03:49 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,33 +33,34 @@ int	get_time_ms(void *main_struct)
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000) - rule->start);
 }
 
-void	ft_sleep(int milisecond, t_rules *rule)
+//void	ft_sleep(int milisecond, t_rules *rule)
+//{
+//	int	start_time;
+//	int	current_time;
+//
+//	start_time = get_time_ms(rule);
+//	current_time = start_time;
+//	while (current_time - start_time < milisecond)
+//	{
+//		current_time = get_time_ms(rule);
+//		usleep(100);
+//	}
+//	// TODO: FIX THE SLEEP WHILE;
+//}
+void	ft_sleep(int milliseconds, t_rules *rule)
 {
 	int	start_time;
-	int	current_time;
+	int	target_time;
+	int	time_left;
 	start_time = get_time_ms(rule);
-	current_time = start_time;
-	while (current_time - start_time < milisecond)
+	target_time = start_time + milliseconds;
+	time_left = milliseconds;
+	while (time_left > 0)
 	{
-		current_time = get_time_ms(rule);
-		usleep(100);
+		if (time_left > 10)
+			usleep(time_left * 800);
+		else
+			usleep(100);
+		time_left = target_time - get_time_ms(rule);
 	}
-	// TODO: FIX THE SLEEP WHILE;
 }
-// void	ft_sleep(int milliseconds, t_rules *rule)
-// {
-// 	int	start_time;
-// 	int	target_time;
-// 	int	time_left;
-// 	start_time = get_time_ms(rule);
-// 	target_time = start_time + milliseconds;
-// 	time_left = milliseconds;
-// 	while (time_left > 0)
-// 	{
-// 		if (time_left > 10)
-// 			usleep(time_left * 800);
-// 		else
-// 			usleep(100);
-// 		time_left = target_time - get_time_ms(rule);
-// 	}
-// }
