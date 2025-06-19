@@ -6,7 +6,7 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 09:31:24 by alermi            #+#    #+#             */
-/*   Updated: 2025/06/17 20:03:32 by alermi           ###   ########.fr       */
+/*   Updated: 2025/06/17 20:21:47 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,29 +16,29 @@
 
 void	take_fork(t_philo *philo)
 {
-	usleep((philo->philo_id % 3) * 100);
-	if (philo->philo_id % 2 )
-	{
-		pthread_mutex_lock(philo->l_fork);
-		p_info(philo, "has taken a fork");
-		pthread_mutex_lock(philo->r_fork);
-		p_info(philo, "has taken a fork");
-	}
-	else
-	{
-		pthread_mutex_lock(philo->r_fork);
-		p_info(philo, "has taken a fork");
-		pthread_mutex_lock(philo->l_fork);
-		p_info(philo, "has taken a fork");
-	}
+	 if (philo->philo_id % 2)
+	 {
+	 	pthread_mutex_lock(philo->l_fork);
+	 	p_info(philo, "has taken a fork");
+	 	pthread_mutex_lock(philo->r_fork);
+	 	p_info(philo, "has taken a fork");
+	 }
+	 else
+	 {
+	 	pthread_mutex_lock(philo->r_fork);
+	 	p_info(philo, "has taken a fork");
+	 	pthread_mutex_lock(philo->l_fork);
+	 	p_info(philo, "has taken a fork");
+	 }
 }
 
 extern __inline__ void
-	thinking(t_philo *philo, int time_die, int time_eat)
+	thinking(t_philo *philo)
 {
 	p_info(philo, "is thinking");
-	if (time_die -(time_eat + time_die))
-		ft_sleep((time_die - time_eat - time_eat) / 2, philo->rules);
+	if (philo->rules->time_to_die -(philo->rules->time_to_eat + philo->rules->time_to_die))
+		ft_sleep((philo->rules->time_to_die - philo->rules->time_to_eat - philo->rules->time_to_eat) / 2, philo->rules);
+	p_info(philo, "think finish");
 }
 
 void	acting(t_philo *philo)
@@ -58,7 +58,7 @@ void	acting(t_philo *philo)
 	pthread_mutex_unlock(&philo->rules->mutex.total_eaten_meal);
 	p_info(philo, "is sleeping");
 	ft_sleep(philo->rules->time_to_sleep, philo->rules);
-	thinking(philo, philo->rules->time_to_die, philo->rules->time_to_eat);
+	thinking(philo);
 }
 
 extern __inline__ void
@@ -76,7 +76,7 @@ extern __inline__ void
 }
 
 extern __inline__ void
-	state_controller(t_philo *philo)
+	*state_controller(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->rules->mutex.end_control);
 	while (!philo->rules->end)
@@ -84,19 +84,20 @@ extern __inline__ void
 		pthread_mutex_unlock(&philo->rules->mutex.end_control);
 		if ((philo->rules->must_eat == philo->eaten_meal) && \
 			!!philo->rules->must_eat && philo->rules->count_philo != 1)
-			return ;
+			return ((void *)0);
 		pthread_mutex_lock(&philo->rules->mutex.total_eaten_meal);
 		if (philo->rules->count_philo == 1)
 			singler_philo(philo);
 		else if ((philo->rules->total_eaten_meal \
 			/ philo->rules->count_philo) \
 			== philo->eaten_meal)
-				acting(philo);
+			acting(philo);
 		else
 			pthread_mutex_unlock(&philo->rules->mutex.total_eaten_meal);
 		pthread_mutex_lock(&philo->rules->mutex.end_control);
 	}
 	pthread_mutex_unlock(&philo->rules->mutex.end_control);
+	return ((void *)0);
 }
 
 void	*simulation_init(void *member)

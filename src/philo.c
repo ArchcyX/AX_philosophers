@@ -6,7 +6,7 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:01:16 by alermi            #+#    #+#             */
-/*   Updated: 2025/06/17 19:52:52 by alermi           ###   ########.fr       */
+/*   Updated: 2025/06/17 20:30:14 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,11 @@ extern	__inline__ void
 			pthread_mutex_lock(&rule->philos[i].kill_control);
 			if (rule->philos[i].kill_time < get_time())
 			{
+				pthread_mutex_unlock(&rule->philos[i].kill_control);
+				death_or_success(rule, i);
 				pthread_mutex_lock(&rule->mutex.end_control);
 				rule->end = 1;
 				pthread_mutex_unlock(&rule->mutex.end_control);
-				pthread_mutex_unlock(&rule->philos[i].kill_control);
-				death_or_success(rule, i);
 				break ;
 			}
 			pthread_mutex_unlock(&rule->philos[i].kill_control);

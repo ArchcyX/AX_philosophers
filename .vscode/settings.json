@@ -5,6 +5,7 @@
         "stdlib.h": "c",
         "stdio.h": "c",
         "pthread.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "compare": "c"
     }
 }
