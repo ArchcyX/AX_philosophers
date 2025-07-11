@@ -6,11 +6,13 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:01:16 by alermi            #+#    #+#             */
-/*   Updated: 2025/06/17 20:30:14 by alermi           ###   ########.fr       */
+/*   Updated: 2025/07/06 01:53:30 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 extern __inline__ int
@@ -36,11 +38,20 @@ extern __inline__ int
 extern __inline__ void
 	death_or_success(t_rules *rule, int i)
 {
+	int	current_time;
+
 	pthread_mutex_lock(&rule->mutex.total_eaten_meal);
 	if (rule->total_eaten_meal / rule->count_philo == rule->must_eat)
-		printf("\n|===> SUCCESS <===|\n");
+		printf("=Success=");
 	else
-		p_info(&rule->philos[i], "is Death");
+	{
+		pthread_mutex_lock(&rule->mutex.end_control);
+		rule->end = 1;
+		pthread_mutex_unlock(&rule->mutex.end_control);
+		current_time = get_time_ms((void *)rule);
+		ft_sleep(1, rule);
+		printf("%d  %d %s\n", current_time, i, "is Death");
+	}
 	pthread_mutex_unlock(&rule->mutex.total_eaten_meal);
 }
 
@@ -82,7 +93,6 @@ extern	__inline__	int
 	pthread_mutex_lock(&rule->mutex.end_control);
 	rule->end = 1;
 	pthread_mutex_unlock(&rule->mutex.end_control);
-	pthread_mutex_unlock(&rule->fork[0]);
 	death_controller(rule);
 	pthread_join(rule->philos[0].id, NULL);
 	pthread_mutex_destroy(&rule->fork[0]);
@@ -92,8 +102,8 @@ extern	__inline__	int
 
 int	main(int argc, char **argv)
 {
-	t_rules	rule;
-	int		i;
+	t_rules				rule;
+	register int		i;
 
 	i = 0;
 	memset(&rule, 0, sizeof(t_rules));
@@ -117,5 +127,4 @@ int	main(int argc, char **argv)
 	while (++i < rule.count_philo)
 		pthread_join(rule.philos[i].id, NULL);
 	end_simulation(&rule);
-	return (0);
 }

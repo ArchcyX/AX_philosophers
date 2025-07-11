@@ -6,39 +6,29 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 09:31:24 by alermi            #+#    #+#             */
-/*   Updated: 2025/06/17 20:21:47 by alermi           ###   ########.fr       */
+/*   Updated: 2025/07/06 02:07:21 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
-#include <sys/time.h>
 #include <unistd.h>
 
 void	take_fork(t_philo *philo)
 {
-	 if (philo->philo_id % 2)
-	 {
-	 	pthread_mutex_lock(philo->l_fork);
-	 	p_info(philo, "has taken a fork");
-	 	pthread_mutex_lock(philo->r_fork);
-	 	p_info(philo, "has taken a fork");
-	 }
-	 else
-	 {
-	 	pthread_mutex_lock(philo->r_fork);
-	 	p_info(philo, "has taken a fork");
-	 	pthread_mutex_lock(philo->l_fork);
-	 	p_info(philo, "has taken a fork");
-	 }
-}
-
-extern __inline__ void
-	thinking(t_philo *philo)
-{
-	p_info(philo, "is thinking");
-	if (philo->rules->time_to_die -(philo->rules->time_to_eat + philo->rules->time_to_die))
-		ft_sleep((philo->rules->time_to_die - philo->rules->time_to_eat - philo->rules->time_to_eat) / 2, philo->rules);
-	p_info(philo, "think finish");
+	if (philo->philo_id % 2)
+	{
+		pthread_mutex_lock(philo->l_fork);
+		p_info(philo, "has taken a fork");
+		pthread_mutex_lock(philo->r_fork);
+		p_info(philo, "has taken a fork");
+	}
+	else
+	{
+		pthread_mutex_lock(philo->r_fork);
+		p_info(philo, "has taken a fork");
+		pthread_mutex_lock(philo->l_fork);
+		p_info(philo, "has taken a fork");
+	}
 }
 
 void	acting(t_philo *philo)
@@ -58,7 +48,10 @@ void	acting(t_philo *philo)
 	pthread_mutex_unlock(&philo->rules->mutex.total_eaten_meal);
 	p_info(philo, "is sleeping");
 	ft_sleep(philo->rules->time_to_sleep, philo->rules);
-	thinking(philo);
+	p_info(philo, "is thinking");
+	if (philo->rules->time_to_eat)
+		ft_sleep((philo->rules->time_to_die - philo->rules->time_to_eat
+				- philo->rules->time_to_eat) / 2, philo->rules);
 }
 
 extern __inline__ void
@@ -70,7 +63,8 @@ extern __inline__ void
 	if (counter == 0)
 	{
 		pthread_mutex_lock(philo->l_fork);
-		p_info(philo, "Sol Çatalı Aldı");
+		p_info(philo, "has taken a fork");
+		pthread_mutex_unlock(philo->l_fork);
 		counter++;
 	}
 }

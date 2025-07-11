@@ -3,6 +3,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -g -pthread #-fsanitize=thread
 RM = rm -rf
 
+
 SRC =	./src/error_exit.c		\
 		./src/free_functions.c	\
 		./src/philo.c			\
@@ -10,6 +11,7 @@ SRC =	./src/error_exit.c		\
 		./src/init_thread.c		\
 		./src/states.c			\
 		./src/time_functions.c
+
 
 OBJ_DIR = obj
 
@@ -29,12 +31,12 @@ $(OBJ_DIR):
 $(OBJ_DIR)/%.o: ./src/%.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+$(NAME): $(OBJS) $(FT_PRINTF_LIB)
+	$(CC) $(CFLAGS) $(OBJS) $(FT_PRINTF_LIB) -o $(NAME)
 	@echo "\\U0001F4C1 \033[32m✓ build completed\033[0m"
 
 clean:
-	@$(RM) $(OBJ_DIR)
+	@$(RM) -r $(OBJ_DIR)
 	@echo "\033[1;33m✓ objects removed\033[0m"
 
 fclean: clean

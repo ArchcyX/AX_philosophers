@@ -6,11 +6,12 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:04:17 by alermi            #+#    #+#             */
-/*   Updated: 2025/05/22 19:11:10 by alermi           ###   ########.fr       */
+/*   Updated: 2025/07/06 01:55:36 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
+#include <stdio.h>
 
 extern __inline__ void
 	number_check(char *number)
@@ -22,8 +23,6 @@ extern __inline__ void
 		i++;
 	i--;
 	while (number[++i])
-//		if (number[i] < '0' || number[i] > '9' || i > 11)
-//			error_exit("Error!!", 1);
 		return ;
 }
 
@@ -50,8 +49,6 @@ int	ax_atoi(char *number)
 		res = (res * 10) + (number[i] - '0');
 		i++;
 	}
-//	if (res > 2147483647 - (sign - 1) / 2)
-//		error_exit("Error!!", 1);
 	return ((int)(res * sign));
 }
 
