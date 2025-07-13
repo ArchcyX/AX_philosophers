@@ -6,11 +6,12 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:04:17 by alermi            #+#    #+#             */
-/*   Updated: 2025/05/22 19:11:10 by alermi           ###   ########.fr       */
+/*   Updated: 2025/07/14 01:47:56 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
+#include <stdio.h>
 
 extern __inline__ void
 	number_check(char *number)

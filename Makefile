@@ -9,17 +9,20 @@ SRC =	./src/error_exit.c		\
 		./src/utils.c			\
 		./src/init_thread.c		\
 		./src/states.c			\
-		./src/time_functions.c
+		./src/time_functions.c	\
+		./src/single.c
 
 OBJ_DIR = obj
 
 OBJS = $(OBJ_DIR)/philo.o				\
-       $(OBJ_DIR)/free_functions.o		\
-       $(OBJ_DIR)/error_exit.o			\
-       $(OBJ_DIR)/utils.o				\
-       $(OBJ_DIR)/init_thread.o			\
-       $(OBJ_DIR)/states.o				\
-       $(OBJ_DIR)/time_functions.o
+		$(OBJ_DIR)/free_functions.o		\
+		$(OBJ_DIR)/error_exit.o			\
+		$(OBJ_DIR)/utils.o				\
+		$(OBJ_DIR)/init_thread.o		\
+		$(OBJ_DIR)/states.o				\
+		$(OBJ_DIR)/time_functions.o		\
+		$(OBJ_DIR)/single.o
+
 
 all: $(NAME)
 

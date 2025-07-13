@@ -6,11 +6,12 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:05:07 by alermi            #+#    #+#             */
-/*   Updated: 2025/05/01 14:40:47 by alermi           ###   ########.fr       */
+/*   Updated: 2025/07/14 01:47:17 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
+#include <stdlib.h>
 
 void	free_imp(void **allocate)
 {

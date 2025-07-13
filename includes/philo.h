@@ -6,16 +6,13 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:00:22 by alermi            #+#    #+#             */
-/*   Updated: 2025/05/11 15:35:32 by alermi           ###   ########.fr       */
+/*   Updated: 2025/07/14 01:46:31 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
 # include <pthread.h>
 
 typedef struct s_philo	t_philo;
@@ -82,6 +79,9 @@ void	fork_init(t_rules *rule);
 int		put_error(char *error_message);
 void	free_imp(void **allocate);
 void	free_matris(void **matris);
+extern	void
+	death_controller(t_rules	*rule);
+
 
 //#############[Time-functions]#############//
 
@@ -89,5 +89,10 @@ int		get_time(void);
 int		get_time_ms(void *main_struct);
 void	ft_sleep(int milisecond, t_rules *rule);
 void	p_info(t_philo	*philo, char *message);
+
+//#############[Single-philo functions]#############//
+
+void	singler_philo(t_philo *philo);
+int		single_philo(t_rules *rule);
 
 #endif

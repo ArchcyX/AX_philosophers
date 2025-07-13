@@ -6,12 +6,11 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 09:31:24 by alermi            #+#    #+#             */
-/*   Updated: 2025/07/14 01:03:39 by alermi           ###   ########.fr       */
+/*   Updated: 2025/07/14 01:48:45 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
-#include <sys/time.h>
 #include <unistd.h>
 
 void	take_fork(t_philo *philo)
@@ -78,19 +77,6 @@ void	acting(t_philo *philo)
 	thinking(philo, philo->rules);
 }
 
-extern __inline__ void
-	singler_philo(t_philo *philo)
-{
-	static int	counter = 0;
-
-	pthread_mutex_unlock(&philo->rules->mutex.total_eaten_meal);
-	if (counter == 0)
-	{
-		pthread_mutex_lock(philo->l_fork);
-		p_info(philo, "Sol Çatalı Aldı");
-		counter++;
-	}
-}
 
 extern __inline__ void
 	*state_controller(t_philo *philo)

@@ -6,12 +6,13 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:01:16 by alermi            #+#    #+#             */
-/*   Updated: 2025/06/17 20:30:14 by alermi           ###   ########.fr       */
+/*   Updated: 2025/07/14 01:49:08 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 #include <string.h>
+#include <stdio.h>
 
 extern __inline__ int
 	init_values(int argc, char **argv, t_rules *rule)
@@ -73,22 +74,6 @@ extern	__inline__ void
 	pthread_mutex_unlock(&rule->mutex.end_control);
 }
 
-extern	__inline__	int
-	single_philo(t_rules *rule)
-{
-	creat_enviroment(rule);
-	ft_sleep(rule->time_to_die, rule);
-	p_info(&rule->philos[0], "is Death");
-	pthread_mutex_lock(&rule->mutex.end_control);
-	rule->end = 1;
-	pthread_mutex_unlock(&rule->mutex.end_control);
-	pthread_mutex_unlock(&rule->fork[0]);
-	death_controller(rule);
-	pthread_join(rule->philos[0].id, NULL);
-	pthread_mutex_destroy(&rule->fork[0]);
-	pthread_mutex_destroy(&rule->philos[0].kill_control);
-	return (1);
-}
 
 int	main(int argc, char **argv)
 {
@@ -117,5 +102,4 @@ int	main(int argc, char **argv)
 	while (++i < rule.count_philo)
 		pthread_join(rule.philos[i].id, NULL);
 	end_simulation(&rule);
-	return (0);
 }
