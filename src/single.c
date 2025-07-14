@@ -20,11 +20,11 @@ int	single_philo(t_rules *rule)
 	pthread_mutex_lock(&rule->mutex.end_control);
 	rule->end = 1;
 	pthread_mutex_unlock(&rule->mutex.end_control);
-	pthread_mutex_unlock(&rule->fork[0]);
 	death_controller(rule);
 	pthread_join(rule->philos[0].id, NULL);
-	pthread_mutex_destroy(&rule->fork[0]);
 	pthread_mutex_destroy(&rule->philos[0].kill_control);
+	free_imp((void *)&rule->fork);
+	free_imp((void *)&rule->philos);
 	return (1);
 }
 

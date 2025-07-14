@@ -69,9 +69,9 @@ void	p_info(t_philo	*philo, char *message)
 	pthread_mutex_lock(&philo->rules->mutex.end_control);
 	if (!philo->rules->end)
 	{
+		pthread_mutex_unlock(&philo->rules->mutex.end_control);
 		current_time = get_time_ms((void *)philo->rules);
 		printf("%d  %d %s\n", current_time, philo->philo_id, message);
-		pthread_mutex_unlock(&philo->rules->mutex.end_control);
 	}
 	else
 		pthread_mutex_unlock(&philo->rules->mutex.end_control);
