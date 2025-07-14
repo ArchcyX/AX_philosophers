@@ -6,7 +6,7 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:01:16 by alermi            #+#    #+#             */
-/*   Updated: 2025/07/14 01:49:08 by alermi           ###   ########.fr       */
+/*   Updated: 2025/07/14 03:45:22 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,10 @@ extern __inline__ void
 	if (rule->total_eaten_meal / rule->count_philo == rule->must_eat)
 		printf("\n|===> SUCCESS <===|\n");
 	else
+	{
+		ft_sleep(2, rule);
 		p_info(&rule->philos[i], "is Death");
+	}
 	pthread_mutex_unlock(&rule->mutex.total_eaten_meal);
 }
 

@@ -6,7 +6,7 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 09:31:24 by alermi            #+#    #+#             */
-/*   Updated: 2025/07/14 01:48:45 by alermi           ###   ########.fr       */
+/*   Updated: 2025/07/14 03:35:03 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ extern __inline__ void
 		if (ttd > 2 * tte)
 			ft_sleep((ttd - 2 * tte) / 2, rule);
 	}
-	p_info(philo, "think finish");
 }
 
 void	acting(t_philo *philo)

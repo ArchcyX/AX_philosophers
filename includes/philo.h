@@ -6,12 +6,15 @@
 /*   By: alermi <alermi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:00:22 by alermi            #+#    #+#             */
-/*   Updated: 2025/07/14 01:46:31 by alermi           ###   ########.fr       */
+/*   Updated: 2025/07/14 02:16:01 by alermi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
+
+# define INT_MAX 2147483647
+# define INT_MIN -2147483648
 
 # include <pthread.h>
 
@@ -55,7 +58,7 @@ typedef struct s_philo
 	t_rules			*rules;
 }	t_philo;
 
-void	number_check(char *number);
+int		number_check(char *number);
 int		ax_atoi(char *number);
 
 //#############[State Funtions]#############//
