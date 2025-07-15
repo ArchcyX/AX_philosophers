@@ -27,7 +27,7 @@ int	number_check(char *number)
 	while (number[i])
 	{
 		if (number[i] < '0' || number[i] > '9')
-			return(put_error("Error: Invalid character in number!"));
+			return (put_error("Error: Invalid character in number!"));
 		i++;
 	}
 	return (0);
@@ -42,7 +42,7 @@ int	ax_atoi(char *number)
 	i = 0;
 	sign = 1;
 	res = 0;
-	if(number_check(number))
+	if (number_check(number))
 		return (-1);
 	while ((number[i] >= 9 && number[i] <= 13) || number[i] == 32)
 		i++;
@@ -55,7 +55,7 @@ int	ax_atoi(char *number)
 	while (number[i] >= '0' && number[i] <= '9')
 	{
 		res = res * 10 + (number[i] - '0');
-		if ((sign == 1 && res > INT_MAX) || (sign == -1 && -res < INT_MIN))
+		if ((sign == 1 && res > INT_MAX) || (sign == -1 && (-res) < INT_MIN))
 			return (put_error("Error: Integer overflow!") - 2);
 		i++;
 	}

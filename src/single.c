@@ -16,7 +16,7 @@ int	single_philo(t_rules *rule)
 {
 	creat_enviroment(rule);
 	ft_sleep(rule->time_to_die, rule);
-	p_info(&rule->philos[0], "is Death");
+	p_info(&rule->philos[0], "died");
 	pthread_mutex_lock(&rule->mutex.end_control);
 	rule->end = 1;
 	pthread_mutex_unlock(&rule->mutex.end_control);

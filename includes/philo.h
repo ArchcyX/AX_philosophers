@@ -79,12 +79,10 @@ void	fork_init(t_rules *rule);
 
 //#############[Error functions]#############//
 
+void	death_controller(t_rules *rule);
 int		put_error(char *error_message);
 void	free_imp(void **allocate);
 void	free_matris(void **matris);
-extern	void
-	death_controller(t_rules	*rule);
-
 
 //#############[Time-functions]#############//
 

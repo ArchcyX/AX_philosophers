@@ -13,6 +13,7 @@
 #include "../includes/philo.h"
 #include <string.h>
 #include <stdio.h>
+#include <unistd.h>
 
 extern __inline__ int
 	init_values(int argc, char **argv, t_rules *rule)
@@ -42,14 +43,14 @@ extern __inline__ void
 		printf("\n|===> SUCCESS <===|\n");
 	else
 	{
-		ft_sleep(2, rule);
-		p_info(&rule->philos[i], "is Death");
+		ft_sleep(8, rule);
+		usleep(300);
+		p_info(&rule->philos[i], "died");
 	}
 	pthread_mutex_unlock(&rule->mutex.total_eaten_meal);
 }
 
-extern	__inline__ void
-	death_controller(t_rules	*rule)
+void	death_controller(t_rules	*rule)
 {
 	register int	i;
 
@@ -76,7 +77,6 @@ extern	__inline__ void
 	}
 	pthread_mutex_unlock(&rule->mutex.end_control);
 }
-
 
 int	main(int argc, char **argv)
 {

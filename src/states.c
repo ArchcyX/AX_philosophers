@@ -76,7 +76,6 @@ void	acting(t_philo *philo)
 	thinking(philo, philo->rules);
 }
 
-
 extern __inline__ void
 	*state_controller(t_philo *philo)
 {

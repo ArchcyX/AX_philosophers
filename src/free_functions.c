@@ -35,7 +35,7 @@ void	end_simulation(t_rules	*rule)
 	register int	i;
 
 	i = -1;
-	while (++i < 4)
+	while (++i < rule->count_philo)
 	{
 		pthread_mutex_destroy(&rule->fork[i]);
 		pthread_mutex_destroy(&rule->philos[i].kill_control);
@@ -43,6 +43,6 @@ void	end_simulation(t_rules	*rule)
 	pthread_mutex_destroy(&rule->mutex.start_control);
 	pthread_mutex_destroy(&rule->mutex.end_control);
 	pthread_mutex_destroy(&rule->mutex.total_eaten_meal);
-	free_imp((void *)&rule->fork);
-	free_imp((void *)&rule->philos);
+	free_imp((void **)&rule->fork);
+	free_imp((void **)&rule->philos);
 }
